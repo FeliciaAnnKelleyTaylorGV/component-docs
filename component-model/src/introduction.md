@@ -38,3 +38,25 @@ The WebAssembly Component Model is a broad-reaching architecture for building in
 If you find a mistake, omission, ambiguity, or other problem, please let us know via [GitHub issues](https://github.com/bytecodealliance/component-docs/issues).
 
 If you'd like to contribute content to the guide, please see the [contribution guide](https://github.com/bytecodealliance/component-docs/blob/main/CONTRIBUTING.md) for information on how to contribute.
+
+
+
+import { exists, open, close } from 'node:fs';
+
+exists('myfile', (e) => {
+  if (e) {
+    console.error('myfile already exists');
+  } else {
+    open('myfile', 'wx', (err, fd) => {
+      if (err) throw err;
+
+      try {
+        writeMyData(fd);
+      } finally {
+        close(fd, (err) => {
+          if (err) throw err;
+        });
+      }
+    });
+  }
+});
